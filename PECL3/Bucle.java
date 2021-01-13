@@ -20,56 +20,54 @@ public class Bucle {
         return valorTotal * valorTotal;
     }
     
-    public void sacarValorBifurcaciones(){
+    public void obtenerValorBifurcaciones(){
         valorBifurcaciones = 0;
-        for(Bifurcacion i: bifurcaciones.values())
-        {
+        for(Bifurcacion i: bifurcaciones.values()){
             valorBifurcaciones += i.getValorBifurcacion();
         }
-        actualizarValorTotales();
+        actualizarValoresT();
     }
 
-    public void sacarValorBucles(){
+    public void sacarValorB(){
         valorBucles = 0;
-        for(Bucle i: bucles.values())
-        {
+        for(Bucle i: bucles.values()){
             valorBucles += i.getValorBucle();
         }
-        actualizarValorTotales();
+        actualizarValoresT();
     }
 
     public void actualizarContadorNodos(){
-        contadorNodos ++;
+        contadorNodos++;
     }
 
     public void addValorLlamadaFuncion(int p){
         valorLlamadas += p;
         actualizarContadorNodos();
-        actualizarValorTotales();
+        actualizarValoresT();
     }
 
     public void addValorOperacionesSimples(int p){
         valorOperacionesSimples += p;
-        actualizarPuntosTotales();
+        actualizarValoresT();
     }
 
     public void addBifurcacion(Bifurcacion b){
         this.bifurcaciones.put(contadorNodos,b);
         actualizarContadorNodos();
-        sacarValorBifurcaciones();
+        obtenerValorBifurcaciones();
     }
 
     public void addValorParametrosLlamadaFuncion(int p){
         valorParametros += p;
-        this.actualizarValorTotales();
+        actualizarValoresT();
     }
 
     public void addValorDeclaracionVariable(int p){
         valorVariables +=p;
-        actualizarValorTotales();
+        actualizarValoresT();
     }
 
-    public void actualizarValorTotales(){
+    public void actualizarValoresT(){
         valorTotal = valorVariables + valorLlamadas + valorParametros +
                                  valorBifurcaciones + valorOperacionesSimples;
     }
@@ -82,15 +80,14 @@ public class Bucle {
         return funciones;
     }
 
-    public HashMap<Integer,Bifurcacion> getBifurcaciones()
-    {
+    public HashMap<Integer,Bifurcacion> getBifurcaciones(){
         return bifurcaciones;
     }
 
     public void addBucle(Bucle b){
         bucles.put(contadorNodos,b);
         actualizarContadorNodos();
-        sacarValorBucles();
+        sacarValorB();
     }
 
     public Integer getContadorNodos(){
@@ -101,27 +98,21 @@ public class Bucle {
         return this.bucles;
     }
 
-    public void getNodosBucle(GeneradorGrafo grafo) throws IOException
-    {
+    public void getNodosBucle(GeneradorGrafo grafo) throws IOException{
         Integer contador = 1;
-        if((contadorNodos.intValue() - funciones.size()) == 1) 
-        {
+        if((contadorNodos.intValue() - funciones.size()) == 1) {
             grafo.addNodo("CuerpoBucle");
         }else{
-            while(contador < contadorNodos)
-            {
-                if(bifurcaciones.containsKey(contador))
-                {
-                    if(bifurcaciones.get(contador).esCompleta())
-                    {
+            while(contador < contadorNodos){
+                if(bifurcaciones.containsKey(contador)){
+                    if(bifurcaciones.get(contador).esCompleta()){
                         grafo.addNodo("BifurcacionCompleta");
                         bifurcaciones.get(contador).getNodosBifurcacion(grafo);
                     }else{
                         grafo.addNodo("BifurcacionIncompleta");
                         bifurcaciones.get(contador).getNodosBifurcacion(grafo);
                     }
-                }else if(bucles.containsKey(contador))
-                {
+                }else if(bucles.containsKey(contador)){
                     grafo.addNodo("Bucle");
                     bucles.get(contador).getNodosBucle(grafo);
                 }

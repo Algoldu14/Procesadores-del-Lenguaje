@@ -14,54 +14,54 @@ public class Bifurcacion {
         //do nothing
     }
 
-    public int getPuntosBifurcacion(){
+    public int getValorBifurcacion(){
         return valorTotal * valorTotal;
     }
 
-    public void sacarPuntosBifurcaciones(){
+    public void sacarValorBifurcaciones(){
         valorBifurcaciones = 0;
         for(Bifurcacion i: bifurcaciones.values())
         {
-            valorBifurcaciones += i.getPuntosBifurcacion();
+            valorBifurcaciones += i.getValorBifurcacion();
         }
-        actualizarPuntosTotales();
+        actualizarValoresT();
     }
     
     public void actualizarContadorNodos(){
         contadorNodos++;
     }
 
-    public void addPuntosLlamadaFuncion(int p){
+    public void addValorLlamadaFuncion(int p){
         valorLlamadas += p;
-        actualizarPuntosTotales();
+        actualizarValoresT();
     }
 
     public void setContadorElse(){
         contadorElse = contadorNodos;
     }
 
-    public void addPuntosOperacionesSimples(int p){
+    public void addValorOperacionesSimples(int p){
         valorOperacionesSimples += p;
-        actualizarPuntosTotales();
+        actualizarValoresT();
     }
 
     public void addBifurcacion(Bifurcacion b){
         bifurcaciones.put(contadorNodos, b);
         actualizarContadorNodos();
-        sacarPuntosBifurcaciones();
+        sacarValorBifurcaciones();
     }
 
-    public void addPuntosParametrosLlamadaFuncion(int p){
+    public void addValorParametrosLlamadaFuncion(int p){
         valorParametros += p;
-        actualizarPuntosTotales();
+        actualizarValoresT();
     }
 
-    public void addPuntosDeclaracionVariable(int p){
+    public void addValorDeclaracionVariable(int p){
         valorVariables +=p;
-        actualizarPuntosTotales();
+        actualizarValoresT();
     }
 
-    public void actualizarPuntosTotales(){
+    public void actualizarValoresT(){
         valorTotal = valorVariables + valorLlamadas + valorParametros +
                                  valorBifurcaciones + valorOperacionesSimples;
     }
