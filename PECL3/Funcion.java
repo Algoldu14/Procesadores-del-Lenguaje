@@ -25,16 +25,14 @@ public class Funcion{
     }
 
     public ArrayList<String> getFuncionesLlamadas(){
-        return this.funciones;
+        return funciones;
     }
 
     public void appendParametro(String p){
-        this.parametrosFuncion.add(p);
-        this.parametros ="";
-        for(int i =0;i<parametrosFuncion.size();i++)
-        {
-            if(i == parametrosFuncion.size()-1)
-            {
+        parametrosFuncion.add(p);
+        parametros ="";
+        for(int i =0;i<parametrosFuncion.size();i++){
+            if(i == parametrosFuncion.size()-1){
                 parametros+=parametrosFuncion.get(i);
             }else{
                 parametros += parametrosFuncion.get(i)+",";
@@ -43,165 +41,154 @@ public class Funcion{
     }
 
     public String getParametros(){
-        return this.parametros;
+        return parametros;
     }
 
     public void appendReturn(String r){
-        this.retorno += r;
+        retorno += r;
     }
 
     public String getRetorno(){
-        return  this.retorno;
+        return  retorno;
     }
 
     public int getPuntos (){
-        return this.valorTotal;
+        return valorTotal;
     }
 
     public void addPuntosOperacionesSimples(int p){
-        this.valorOperacionesSimples += p;
-        this.actualizarPuntosTotales();
+        valorOperacionesSimples += p;
+        actualizarPuntosTotales();
     }
 
     public void sacarPuntosBifurcaciones(){
-        this.valorBifurcaciones = 0;
-        for(Bifurcacion i: this.bifurcaciones.values())
-        {
-            this.valorBifurcaciones += i.getPuntosBifurcacion();
+        valorBifurcaciones = 0;
+        for(Bifurcacion i: bifurcaciones.values()){
+            valorBifurcaciones += i.getPuntosBifurcacion();
         }
-        this.actualizarPuntosTotales();
+        actualizarPuntosTotales();
     }
 
     public void addBifurcacion(Bifurcacion b){
-        this.bifurcaciones.put(this.contadorNodos,b);
-        this.actualizarContadorNodos();
+        bifurcaciones.put(contadorNodos,b);
+        actualizarContadorNodos();
         sacarPuntosBifurcaciones();
     }
 
     public void actualizarContadorNodos(){
-        this.contadorNodos = this.contadorNodos.intValue() + 1;
+        contadorNodos =  contadorNodos.intValue() + 1;
     }
 
     public void addPuntosLlamadaFuncion(int p){
-        this.valorLlamada += p;
+        valorLlamada += p;
         actualizarContadorNodos();
-        this.actualizarPuntosTotales();
+        actualizarPuntosTotales();
     }
 
     public void addPuntosParametrosLlamadaFuncion(int p){
-        this.valorParametrosLlamadas += p;
-        this.actualizarPuntosTotales();
+        valorParametrosLlamadas += p;
+        actualizarPuntosTotales();
     }
 
     public void addPuntosParametro(int p){
-        this.valorParametros += p;
+        valorParametros += p;
         actualizarPuntosTotales();
     }
 
     public void addPuntosDeclaracionVariable(int p){
-        this.valorVariable +=p;
+        valorVariable +=p;
         actualizarPuntosTotales();
     }
 
     public void actualizarPuntosTotales(){
-        this.valorTotal = this.valorParametros + this.valorVariable +    
-                                this.valorLlamada + this.valorParametrosLlamadas + this.valorBucle 
-                                + this.valorBifurcaciones + this.valorOperacionesSimples;
+        valorTotal =  valorParametros +  valorVariable + valorLlamada +  valorParametrosLlamadas +  valorBucle 
+                    +  valorBifurcaciones +  valorOperacionesSimples;
     }
 
     public int getComplejidadCiclomatica(){
-        return this.complejidadCc;
+        return  complejidadCc;
     }
 
     public void setNombre (String n){
-        this.id = n;
+        id = n;
     }
 
     public void addLineaCodigoEfectiva(int l){
-        this.lineasUtil+=l;
+        lineasUtil+=l;
     }
     
     public void sacarPuntosBucles(){
-        this.valorBucle = 0;
-        for(Bucle i: this.bucles.values())
-        {
-            this.valorBucle += i.getPuntosBucle();
+        valorBucle = 0;
+        for(Bucle i:  bucles.values()){
+            valorBucle += i.getPuntosBucle();
         }
         actualizarPuntosTotales();
     }
 
     public void addBucle( Bucle b){
-        this.bucles.put(this.contadorNodos,b);
+        bucles.put( contadorNodos,b);
         actualizarContadorNodos();
         sacarPuntosBucles();
     }
 
     public String getNombre (){
-        return this.id;
+        return  id;
     }
 
     public int getNumeroFuncionesLlamadas(){
-        return this.valorLlamada/2;
+        return  valorLlamada/2;
     }
 
     public int getVariablesDeclaradas(){
-        return this.valorVariable;
+        return  valorVariable;
     }
 
     public int getNumeroParametros(){
-        return this.valorParametros;
+        return  valorParametros;
     }
 
     public void generarGrafoFuncion(String nombre)throws IOException{
-        this.grafo = new GeneradorGrafo(nombre);
+        grafo = new GeneradorGrafo(nombre);
         getNodosFuncion();
         grafo.generarGrafo();
-        this.complejidadCc=grafo.getComplejidadCiclomatica();
+        complejidadCc=grafo.getComplejidadCiclomatica();
     }
 
     public void getNodosFuncion() throws IOException{  
         Integer contador = 1;
-        this.grafo.addNodo("InicioFuncion");
-        while (contador < contadorNodos)
-        {
-            if(bucles.containsKey(contador))
-            {
-                this.grafo.addNodo("Bucle");
-                this.bucles.get(contador).getNodosBucle(this.grafo);
-            }else if(bifurcaciones.containsKey(contador))
-            {
-                if(this.bifurcaciones.get(contador).esCompleta())
-                {
-                    this.grafo.addNodo("BifurcacionCompleta");
-                    this.bifurcaciones.get(contador).getNodosBifurcacion(grafo);
+        grafo.addNodo("InicioFuncion");
+        while (contador < contadorNodos){
+            if(bucles.containsKey(contador)){
+                grafo.addNodo("Bucle");
+                bucles.get(contador).getNodosBucle( grafo);
+            }else if(bifurcaciones.containsKey(contador)){
+                if( bifurcaciones.get(contador).esCompleta()){
+                    grafo.addNodo("BifurcacionCompleta");
+                    bifurcaciones.get(contador).getNodosBifurcacion(grafo);
                 }else{
-                    this.grafo.addNodo("BifurcacionIncompleta");
-                    this.bifurcaciones.get(contador).getNodosBifurcacion(grafo);
+                    grafo.addNodo("BifurcacionIncompleta");
+                    bifurcaciones.get(contador).getNodosBifurcacion(grafo);
                 }
                 
             }
             contador = contador.intValue() + 1;
         }
-        this.grafo.addNodo("FinFuncion");
+        grafo.addNodo("FinFuncion");
     }
 
-    public Integer getContadorNodos()
-    {
-        return this.contadorNodos;
+    public Integer getContadorNodos(){
+        return  contadorNodos;
     }
 
-    public HashMap<Integer,Bucle> getBucles()
-    {
-        return this.bucles;
+    public HashMap<Integer,Bucle> getBucles(){
+        return  bucles;
     }
 
-    public HashMap<Integer,Bifurcacion> getBifurcaciones()
-    {
-        return this.bifurcaciones;
+    public HashMap<Integer,Bifurcacion> getBifurcaciones(){
+        return  bifurcaciones;
     }
 
-    public int getLineasCodigo()
-    {
-        return this.lineasUtil;
+    public int getLineasCodigo(){
+        return  lineasUtil;
     }
 }
