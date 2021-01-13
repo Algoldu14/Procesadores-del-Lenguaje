@@ -16,39 +16,39 @@ public class Bucle {
         //do nothing
     }
 
-    public int getPuntosBucle (){
+    public int getValorBucle (){
         return valorTotal * valorTotal;
     }
     
-    public void sacarPuntosBifurcaciones(){
+    public void sacarValorBifurcaciones(){
         valorBifurcaciones = 0;
         for(Bifurcacion i: bifurcaciones.values())
         {
-            valorBifurcaciones += i.getPuntosBifurcacion();
+            valorBifurcaciones += i.getValorBifurcacion();
         }
-        actualizarPuntosTotales();
+        actualizarValorTotales();
     }
 
-    public void sacarPuntosBucles(){
+    public void sacarValorBucles(){
         valorBucles = 0;
         for(Bucle i: bucles.values())
         {
-            valorBucles += i.getPuntosBucle();
+            valorBucles += i.getValorBucle();
         }
-        actualizarPuntosTotales();
+        actualizarValorTotales();
     }
 
     public void actualizarContadorNodos(){
         contadorNodos ++;
     }
 
-    public void addPuntosLlamadaFuncion(int p){
+    public void addValorLlamadaFuncion(int p){
         valorLlamadas += p;
         actualizarContadorNodos();
-        actualizarPuntosTotales();
+        actualizarValorTotales();
     }
 
-    public void addPuntosOperacionesSimples(int p){
+    public void addValorOperacionesSimples(int p){
         valorOperacionesSimples += p;
         actualizarPuntosTotales();
     }
@@ -56,20 +56,20 @@ public class Bucle {
     public void addBifurcacion(Bifurcacion b){
         this.bifurcaciones.put(contadorNodos,b);
         actualizarContadorNodos();
-        sacarPuntosBifurcaciones();
+        sacarValorBifurcaciones();
     }
 
-    public void addPuntosParametrosLlamadaFuncion(int p){
+    public void addValorParametrosLlamadaFuncion(int p){
         valorParametros += p;
-        this.actualizarPuntosTotales();
+        this.actualizarValorTotales();
     }
 
-    public void addPuntosDeclaracionVariable(int p){
+    public void addValorDeclaracionVariable(int p){
         valorVariables +=p;
-        actualizarPuntosTotales();
+        actualizarValorTotales();
     }
 
-    public void actualizarPuntosTotales(){
+    public void actualizarValorTotales(){
         valorTotal = valorVariables + valorLlamadas + valorParametros +
                                  valorBifurcaciones + valorOperacionesSimples;
     }
@@ -90,7 +90,7 @@ public class Bucle {
     public void addBucle(Bucle b){
         bucles.put(contadorNodos,b);
         actualizarContadorNodos();
-        sacarPuntosBucles();
+        sacarValorBucles();
     }
 
     public Integer getContadorNodos(){
