@@ -1,4 +1,4 @@
-package PECL3;
+package Procesadores-del-Lenguaje.PECL3;
 
 import java.io.IOException;
 import java.util.*;
