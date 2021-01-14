@@ -1,4 +1,3 @@
-package PECL3;
 
 import java.util.*;
 import java.io.*;
@@ -31,7 +30,7 @@ public class GeneradorGrafo
     private Stack<Integer> bifurcacionesIncompletas = new Stack<Integer> ();
 
     public GeneradorGrafo(String n) throws IOException{
-        this.fuctionID = n;
+        fuctionID = n;
         writer = new BufferedWriter(new FileWriter("C:\\antlr\\gramaticas\\"+fuctionID+".txt"));
         writer.write("digraph G {\n");
     }
@@ -142,7 +141,7 @@ public class GeneradorGrafo
             }
         }
 
-        this.complejidadCc = this.numAristas-(this.contadorNodos.intValue()-1)+2;
+        complejidadCc = numAristas-(contadorNodos.intValue()-1)+2;
         writer.write("}");
         writer.close();
         Process p;
@@ -156,7 +155,7 @@ public class GeneradorGrafo
 
     public int getComplejidadCiclomatica()
     {
-        return this.complejidadCc;
+        return complejidadCc;
     }
     
    
