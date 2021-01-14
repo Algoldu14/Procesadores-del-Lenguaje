@@ -4,7 +4,6 @@ import java.util.*;
 import java.io.IOException;
 
 public class Funcion{
-
     private String id,parametros,retorno;
     private int complejidadCc,valorParametros,valorBifurcaciones,lineasUtil,valorVariable,valorBucle,valorLlamada,
                 valorOperacionesSimples,valorParametrosLlamadas,valorTotal;
