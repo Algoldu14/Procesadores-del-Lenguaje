@@ -1,5 +1,5 @@
-// Generated from gPL2Parser.g4 by ANTLR 4.9
 package PECL3;
+// Generated from gPL2Parser.g4 by ANTLR 4.9
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -7,6 +7,26 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  * {@link gPL2Parser}.
  */
 public interface gPL2ParserListener extends ParseTreeListener {
+	/**
+	 * Enter a parse tree produced by {@link gPL2Parser#identificador}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdentificador(gPL2Parser.IdentificadorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link gPL2Parser#identificador}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdentificador(gPL2Parser.IdentificadorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link gPL2Parser#pfinfuncion}.
+	 * @param ctx the parse tree
+	 */
+	void enterPfinfuncion(gPL2Parser.PfinfuncionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link gPL2Parser#pfinfuncion}.
+	 * @param ctx the parse tree
+	 */
+	void exitPfinfuncion(gPL2Parser.PfinfuncionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link gPL2Parser#prog}.
 	 * @param ctx the parse tree
@@ -137,6 +157,16 @@ public interface gPL2ParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExpresion(gPL2Parser.ExpresionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link gPL2Parser#llamadaFuncion}.
+	 * @param ctx the parse tree
+	 */
+	void enterLlamadaFuncion(gPL2Parser.LlamadaFuncionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link gPL2Parser#llamadaFuncion}.
+	 * @param ctx the parse tree
+	 */
+	void exitLlamadaFuncion(gPL2Parser.LlamadaFuncionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link gPL2Parser#operacion}.
 	 * @param ctx the parse tree

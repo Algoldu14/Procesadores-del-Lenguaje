@@ -5,19 +5,20 @@ options{
      tokenVocab = gPL2Lexer;
      language = Java;
  }
-
+identificador: ID;
+pfinfuncion:PFINFUNCION;
 prog: ((algoritmo|funcion|comentario) TERMINAL)*;
-definicion: PDEFINIR ID (COMA ID)* PCOMO PTIPOS PUNTOCOMA?;
-algoritmo: PALGORITMO ID TERMINAL? (linea|bloque)* PFINALGORITMO;
+definicion: PDEFINIR identificador (COMA identificador)* PCOMO PTIPOS PUNTOCOMA?;
+algoritmo: PALGORITMO identificador TERMINAL? (linea|bloque)* PFINALGORITMO;
 si: PSI operacion PENTONCES (linea*|si) (PSINO (linea*|si))? PFINSI TERMINAL;
-para: PPARA operacion PHASTA (DIGITO|ID) PHACER linea* PFINPARA TERMINAL;
+para: PPARA operacion PHASTA (DIGITO|identificador) PHACER linea* PFINPARA TERMINAL;
 mientras: PMIENTRAS operacion PHACER (linea|si)* PFINMIENTRAS TERMINAL?;
 repetir:PREPETIR linea* PHASTAQUE operacion TERMINAL;
-segun: PSEGUN ID PHACER ((CADENA|DIGITO) DOSPUNTOS TERMINAL linea*)+ 
+segun: PSEGUN identificador PHACER ((CADENA|DIGITO) DOSPUNTOS TERMINAL linea*)+ 
         (PDEOTROMODO DOSPUNTOS TERMINAL linea*)? PFINSEGUN TERMINAL; 
-funcion: cabezafuncion cuerpofuncion PFINFUNCION;
-argumentos: ID|operacion (COMA ID|operacion)*;
-dimension: PDIMENSION ID CI (DIGITO|ID (COMA DIGITO|ID)*) CD;
+funcion: cabezafuncion cuerpofuncion pfinfuncion;
+argumentos: identificador|operacion (COMA identificador|operacion)*;
+dimension: PDIMENSION identificador CI (DIGITO|identificador (COMA DIGITO|identificador)*) CD;
 bloque: definicion
     | si
     | para
@@ -28,30 +29,31 @@ bloque: definicion
     ;
 
 expresion: PESCRIBIR operacion comentario?
-    | PLEER ID comentario?
+    | PLEER identificador comentario?
     | comentario
     | operacion
     ;
+llamadaFuncion:identificador PI argumentos? PD;
 
-
-operacion: ID ASIGNACION expresion
-    | ID
-    | (DIGITO|ID) ((MAS|MENOS) (ID|DIGITO))*
-    | (CADENA|ID) ((MAS|COMA) (CADENA|ID))*
-    | ID IGUAL (ID|CADENA)
-    | ID (IGUAL|MAYOR|MENOR) DIGITO
-    | ID PI argumentos? PD
+operacion: identificador ASIGNACION expresion
+    | identificador
+    | (DIGITO|identificador) ((MAS|MENOS) (identificador|DIGITO))*
+    | (CADENA|identificador) ((MAS|COMA) (CADENA|identificador))*
+    | identificador IGUAL (identificador|CADENA)
+    | identificador (IGUAL|MAYOR|MENOR) DIGITO
+    | llamadaFuncion
     | array ASIGNACION array
     | PI operacion PD
     | operacion Y operacion
     ;
-array: ID CI (DIGITO|ID|operacion (COMA (DIGITO|ID)*))CD;
+
+array: identificador CI (DIGITO|identificador|operacion (COMA (DIGITO|identificador)*))CD;
 textos:TEXTOCOMENTARIOML+
     |TEXTOCOMENTARIOUL+
     ;
 linea:expresion PUNTOCOMA?;
 
-cabezafuncion: PFUNCION ID ASIGNACION? ID? PI argumentos? PD TERMINAL;
+cabezafuncion: PFUNCION identificador ASIGNACION? identificador? PI argumentos? PD TERMINAL;
 cuerpofuncion: (linea|TERMINAL)*;
 comentario: 
       COMENTARIOABRIR (textos|TERMINAL)* COMENTARIOCERRAR

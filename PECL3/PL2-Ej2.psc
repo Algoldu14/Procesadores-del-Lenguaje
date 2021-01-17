@@ -1,4 +1,4 @@
-//inicio de recursividad: preparar los parámetros de llamada
+//inicio de recursividad: preparar los parï¿½metros de llamada
 Funcion LlamaFibonacci ( repeticiones )
 	Escribir 0
 	Escribir 1

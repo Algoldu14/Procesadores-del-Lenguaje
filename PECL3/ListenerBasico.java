@@ -129,15 +129,90 @@ public class ListenerBasico extends gPL2ParserBaseListener {
     }
 
     @Override
-    public void exitIdentificador(gPL2Parser.IDContext ctx)
+    public void enterIdentificador(gPL2Parser.IdentificadorContext ctx) {
+        if(this.nombreFuncion.equals("Necesito un nombre de la funcion")){
+            this.funcionActual.setNombre(ctx.ID().getText());
+            this.nombreFuncion="";
+        }else if(this.parametrosFuncion.equals("Necesito un parámetro de funcion")){
+            this.funcionActual.appendParametro(ctx.ID().getText());
+        }else if(this.llamadafuncion.equals("Necesito un nombre de llamada")){
+                if(this.controlBifurcaciones.size() > 1 ){
+                    this.controlBifurcaciones.get(this.controlBifurcaciones.size()-1).addNombreLlamada(ctx.ID().getText());
+                }else if(this.controlBucles.size() > 0){
+                    this.controlBucles.get(this.controlBucles.size()-1).addNombreLlamada(ctx.ID().getText());
+                }else{
+                    this.funcionActual.addNombreLlamada(ctx.ID().getText());
+                }
+            this.llamadafuncion ="";
+        }
+    }
+
+    @Override
+    public void exitIdentificador(gPL2Parser.IdentificadorContext ctx)
     {
         this.nombreFuncion = "";
     }
 
     @Override
-    public void visitTerminal(TerminalNode node) {
-        s.push(gPL2Lexer.VOCABULARY.getSymbolicName(node.getSymbol().getType()) + ":" + node.getText());
+    public void enterArgumentos(gPL2Parser.ArgumentosContext ctx) {
+        this.funcionActual.addValorParametro(2 * ctx.identificador().size());
+        this.parametrosFuncion = "Necesito un parámetro de funcion";
     }
+
+    @Override
+    public void exitArgumentos(gPL2Parser.ArgumentosContext ctx) {
+        this.parametrosFuncion ="";
+    }
+
+
+    @Override
+    public void enterPfinfuncion(gPL2Parser.PfinfuncionContext ctx) {
+        this.retornoFuncion = "Necesito un retorno de funcion";
+    }
+
+    @Override
+    public void enterDefinicion(gPL2Parser.DefinicionContext ctx) {
+        if(this.controlBucles.size() > 0){
+            if(this.controlBifurcaciones.size() > 0){
+                this.controlBifurcaciones.get(this.controlBifurcaciones.size()-1).addValorDeclaracionVariable(1 * ctx.identificador().size()); 
+            }else{
+                this.controlBucles.get(this.controlBucles.size()-1).addValorDeclaracionVariable(1 * ctx.identificador().size()); 
+            }                  
+        }else{
+            if(this.controlBifurcaciones.size() > 0){
+                this.controlBifurcaciones.get(controlBifurcaciones.size()-1).addValorDeclaracionVariable(1 * ctx.identificador().size());
+            }else{
+                this.funcionActual.addValorDeclaracionVariable(1 * ctx.identificador().size());
+            }       
+        }
+        this.funcionActual.addLineaCodigoEfectiva(ctx.identificador().size());        
+    }
+
+    @Override
+    public void enterLlamadaFuncion(gPL2Parser.LlamadaFuncionContext ctx) {
+        this.llamadafuncion = "Necesito un nombre de llamada";
+        if(this.controlBifurcaciones.size() > 0){
+            this.controlBifurcaciones.get(this.controlBifurcaciones.size()-1).addValorLlamadaFuncion(2);
+        }else if(this.controlBucles.size() > 0){   
+            this.controlBucles.get(this.controlBucles.size()-1).addValorLlamadaFuncion(2);
+        }else {
+            this.funcionActual.addValorLlamadaFuncion(2);
+        }
+        this.funcionActual.addLineaCodigoEfectiva(1);      
+        this.funcionActual.addValorParametrosLlamadaFuncion(ctx.argumentos().identificador().size());
+    }
+    
+
+    
+    @Override
+    public void visitTerminal(TerminalNode node) {
+        if(this.retornoFuncion.equals("Necesito un retorno de funcion"))
+        {
+            this.funcionActual.appendReturn(node.getText());
+            this.retornoFuncion ="";
+        }
+    }
+
 
     public String getArbol() {
         return this.arbol;

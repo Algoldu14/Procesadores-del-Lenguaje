@@ -1,3 +1,4 @@
+package PECL3;
 // Generated from gPL2Parser.g4 by ANTLR 4.9
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -10,6 +11,30 @@ import org.antlr.v4.runtime.tree.TerminalNode;
  * of the available methods.
  */
 public class gPL2ParserBaseListener implements gPL2ParserListener {
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIdentificador(gPL2Parser.IdentificadorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIdentificador(gPL2Parser.IdentificadorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterPfinfuncion(gPL2Parser.PfinfuncionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPfinfuncion(gPL2Parser.PfinfuncionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -166,6 +191,18 @@ public class gPL2ParserBaseListener implements gPL2ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitExpresion(gPL2Parser.ExpresionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLlamadaFuncion(gPL2Parser.LlamadaFuncionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLlamadaFuncion(gPL2Parser.LlamadaFuncionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
