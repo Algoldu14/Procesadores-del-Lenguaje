@@ -31,7 +31,7 @@ public class GeneradorGrafo
 
     public GeneradorGrafo(String n) throws IOException{
         fuctionID = n;
-        writer = new BufferedWriter(new FileWriter("C:\\antlr\\gramaticas\\"+fuctionID+".txt"));
+        writer = new BufferedWriter(new FileWriter("C:\\antlr\\gramaticas\\"+fuctionID+".txt")); //Cambiar ruta a la que se desee
         writer.write("digraph G {\n");
     }
 
