@@ -1,7 +1,7 @@
 package PECL3;
 import java.util.*;
 
-public class tablaDeSimbolos {
+public class TablaDeSimbolos {
     private HashMap<String, Funcion> funciones = new HashMap<String, Funcion>();
 
     public void addFuncion( String nombre, Funcion f){
