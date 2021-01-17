@@ -4,10 +4,7 @@ package PECL3;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 import java.io.*;
-import java.util.*;
-import javax.sound.sampled.SourceDataLine;
-
-public class Main{
+class Main{
     public static void main(String[] args) throws Exception {
         String inputFile = null, ficheroHTML = null, funcionPrincipal= null;
         if (args.length>0){
