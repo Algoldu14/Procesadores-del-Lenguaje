@@ -45,8 +45,8 @@ class Main{
         HTMLConverter miHTML = new HTMLConverter(miTabla.getFunciones(),ficheroHTML);
 
         for(String i : miTabla.getFunciones().keySet()){        
-          
-        miHTML.endHTML();
+            miHTML.escribirHTML(i);
         }
+        miHTML.endHTML();
     }
 }
