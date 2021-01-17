@@ -63,7 +63,7 @@ public class Funcion{
     public void sacarPuntosBifurcaciones(){
         valorBifurcaciones = 0;
         for(Bifurcacion i: bifurcaciones.values()){
-            valorBifurcaciones += i.getPuntosBifurcacion();
+            valorBifurcaciones += i.getValorBifurcacion();
         }
         actualizarPuntosTotales();
     }
@@ -119,7 +119,7 @@ public class Funcion{
     public void sacarPuntosBucles(){
         valorBucle = 0;
         for(Bucle i:  bucles.values()){
-            valorBucle += i.getPuntosBucle();
+            valorBucle += i.getValorBucle();
         }
         actualizarPuntosTotales();
     }

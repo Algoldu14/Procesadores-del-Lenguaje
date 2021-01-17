@@ -1,4 +1,4 @@
-package Procesadores-del-Lenguaje.PECL3;
+package PECL3;
 
 import java.io.IOException;
 import java.util.*;
@@ -16,7 +16,7 @@ public class Bucle {
         //do nothing
     }
 
-    public int getValorBucle (){
+    public int getValorBucle(){
         return valorTotal * valorTotal;
     }
     
