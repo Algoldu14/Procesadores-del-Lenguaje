@@ -158,7 +158,7 @@ public class GrafoCiclomaticaTotal {
     }
 
     public void getNodosFuncion(Funcion f) throws IOException {
-        Integer contador = new Integer(1);
+        Integer contador = 1;
         int contadorFuncionesLlamadas = 0;
         addNodo("InicioFuncion");
         while (contador < f.getContadorNodos()) {
@@ -181,7 +181,7 @@ public class GrafoCiclomaticaTotal {
                     getNodosFuncion(funciones.get(funcionLlamada));
                 }
             }
-            contador = new Integer(contador.intValue() + 1);
+            contador = contador.intValue() + 1;
         }
         addNodo("FinFuncion");
     }
@@ -196,7 +196,7 @@ public class GrafoCiclomaticaTotal {
     }
 
     public void getNodosBucle(Bucle b) throws IOException {
-        Integer contador = new Integer(1);
+        Integer contador = 1;
         int contadorFuncionesLlamadas = 0;
 
         if ((b.getContadorNodos() - b.funciones.size() == 1) && (algunaFuncionDefinida(b) == false)) {
@@ -228,7 +228,7 @@ public class GrafoCiclomaticaTotal {
     }
 
     public void getNodosBifurcacion(Bifurcacion b) throws IOException {
-        Integer contador = new Integer(1);
+        Integer contador = 1;
         int contadorFuncionesLlamadas = 0;
         if (b.esCompleta()) {
             if (b.getContadorNodos().intValue() == 1) {
