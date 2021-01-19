@@ -50,10 +50,9 @@ public class GeneradorGrafoLlamadas {
 
     public boolean estaEnNodos(String nodo) {
         for (int i = 0; i < nodos.size(); i++) {
-            if (nodos.get(i).equals(nodo)) {
+            if (nodo.equals(nodos.get(i))) {
                 return true;
             }
-
         }
         return false;
     }

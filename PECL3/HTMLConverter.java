@@ -27,7 +27,7 @@ public class HTMLConverter {
         writer.newLine();
         writer.write("<p>Esta práctica ha sido desarrollada por: </p>");
         writer.newLine();
-        writer.write("<ul><li>Isabel Martínez Gómez</li><li>Javier García Jiménez</li><li>David Moreno López</li></ul>");
+        writer.write("<ul><li>Alvaro Golbano Duran</li><li>Laura Ramos Martinez</li><li>Jose Rafael Flores Quintero</li></ul>");
         writer.newLine();
     }     
 

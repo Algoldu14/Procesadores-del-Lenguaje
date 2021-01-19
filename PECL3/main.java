@@ -34,6 +34,7 @@ class Main{
 
         for(String i : miTabla.getFunciones().keySet()){
             miTabla.getFunciones().get(i).generarGrafoFuncion(i);
+            System.out.println(miTabla.getFunciones().get(i));
         }
 
         GeneradorGrafoLlamadas llamadas = new GeneradorGrafoLlamadas(miTabla.getFunciones());

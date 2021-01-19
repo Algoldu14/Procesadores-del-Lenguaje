@@ -5,10 +5,10 @@ import java.io.IOException;
 
 public class Funcion {
     private String id, parametros, retorno;
-    private int complejidadCc, valorParametros, valorBifurcaciones, lineasUtil, valorVariable, valorBucle, valorLlamada,
-            valorOperacionesSimples, valorParametrosLlamadas, valorTotal;
+    private int complejidadCc = 0, valorParametros = 0, valorBifurcaciones = 0, lineasUtil = 0, valorVariable = 0,
+            valorBucle = 0, valorLlamada = 0, valorOperacionesSimples = 0, valorParametrosLlamadas = 0, valorTotal = 0;
     private ArrayList<String> parametrosFuncion = new ArrayList<String>();
-    private Integer contadorNodos;
+    private Integer contadorNodos=0;
     GeneradorGrafo grafo;
     private ArrayList<String> funciones = new ArrayList<String>();
     private Stack<String> controlLlamadasFuncion = new Stack<String>();
@@ -75,7 +75,7 @@ public class Funcion {
     }
 
     public void actualizarContadorNodos() {
-        contadorNodos = contadorNodos.intValue() + 1;
+        this.contadorNodos++;
     }
 
     public void addValorLlamadaFuncion(int p) {

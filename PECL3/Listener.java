@@ -50,6 +50,18 @@ public class Listener extends gPL2ParserBaseListener {
     }
 
     @Override
+    public void enterAlgoritmo(gPL2Parser.AlgoritmoContext ctx) {
+        this.funcionActual = new Funcion();
+    }
+
+    @Override
+    public void exitAlgoritmo(gPL2Parser.AlgoritmoContext ctx) {
+        this.miTabla.addFuncion(funcionActual.getNombre(), funcionActual);
+        controlBucles.clear();
+        controlBifurcaciones.clear();
+    }
+
+    @Override
     public void enterOperacion(gPL2Parser.OperacionContext ctx) {
         this.funcionActual.addLineaCodigoEfectiva(1);
     }
@@ -196,12 +208,10 @@ public class Listener extends gPL2ParserBaseListener {
                 this.controlBifurcaciones.get(controlBifurcaciones.size() - 1)
                         .addValorDeclaracionVariable(1 * ctx.identificador().size());
             } else {
-                //this.funcionActual.addValorDeclaracionVariable(1 * ctx.identificador().size());
+                int aux =ctx.identificador().size();
+                this.funcionActual.addValorDeclaracionVariable(1 * aux);
             }
         }
-        System.out.println("ctx"+ctx.toString());
-        System.out.println("id"+ctx.identificador().toString());
-        System.out.println("size"+ctx.identificador().size());
         this.funcionActual.addLineaCodigoEfectiva(ctx.identificador().size());
     }
 
@@ -216,7 +226,11 @@ public class Listener extends gPL2ParserBaseListener {
             this.funcionActual.addValorLlamadaFuncion(2);
         }
         this.funcionActual.addLineaCodigoEfectiva(1);
-        this.funcionActual.addValorParametrosLlamadaFuncion(ctx.argumentos().identificador().size());
+        if(ctx.argumentos()==null){
+            this.funcionActual.addValorParametrosLlamadaFuncion(0);
+        }else{
+            this.funcionActual.addValorParametrosLlamadaFuncion(ctx.argumentos().identificador().size());
+        }
     }
 
     @Override

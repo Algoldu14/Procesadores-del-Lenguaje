@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.*;
 
 public class Bucle {
-    private int valorVariables, valorBucles, valorBifurcaciones, valorLlamadas, valorOperacionesSimples,
-            valorParametros, valorTotal;
-    private Integer contadorNodos;
+    private int valorVariables=0, valorBucles=0, valorBifurcaciones=0, valorLlamadas=0, valorOperacionesSimples=0,
+            valorParametros=0, valorTotal=0;
+    private Integer contadorNodos=0;
     ArrayList<String> funciones = new ArrayList<String>();
     private HashMap<Integer, Bifurcacion> bifurcaciones = new HashMap<Integer, Bifurcacion>();
     private HashMap<Integer, Bucle> bucles = new HashMap<Integer, Bucle>();

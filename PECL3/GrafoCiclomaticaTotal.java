@@ -21,6 +21,7 @@ public class GrafoCiclomaticaTotal {
         writer = new BufferedWriter(new FileWriter("C:\\antlr\\gramaticas\\ciclomaticaTotal.txt"));
         writer.write("digraph G {\n");
         this.funciones = f;
+        System.out.println(f);
         getNodosFuncion(f.get(funcionPrincipal));
         generarGrafo();
     }

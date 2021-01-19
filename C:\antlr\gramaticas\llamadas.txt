@@ -1,0 +1,5 @@
+digraph G {
+nodoFibonacci[label="Fibonacci"];
+nodoLlamaFibonacci[label="LlamaFibonacci"];
+nodoLlamaFibonacci->nodoFibonacci;
+}
