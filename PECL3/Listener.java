@@ -4,6 +4,8 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.*;
 
+import javax.annotation.processing.SupportedAnnotationTypes;
+
 public class Listener extends gPL2ParserBaseListener {
 
     private Stack<String> s = new Stack<String>();
@@ -194,9 +196,12 @@ public class Listener extends gPL2ParserBaseListener {
                 this.controlBifurcaciones.get(controlBifurcaciones.size() - 1)
                         .addValorDeclaracionVariable(1 * ctx.identificador().size());
             } else {
-                this.funcionActual.addValorDeclaracionVariable(1 * ctx.identificador().size());
+                //this.funcionActual.addValorDeclaracionVariable(1 * ctx.identificador().size());
             }
         }
+        System.out.println("ctx"+ctx.toString());
+        System.out.println("id"+ctx.identificador().toString());
+        System.out.println("size"+ctx.identificador().size());
         this.funcionActual.addLineaCodigoEfectiva(ctx.identificador().size());
     }
 

@@ -16,7 +16,7 @@ public class Bucle {
     }
 
     public int getValorBucle() {
-        return valorTotal * valorTotal;
+        return valorTotal *  valorTotal;
     }
 
     public void obtenerValorBifurcaciones() {

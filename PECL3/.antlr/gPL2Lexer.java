@@ -1,4 +1,4 @@
-// Generated from /Users/luis/Desktop/Universidad/ProcesadoresDeLenguaje/SegundaMatricula/PL3/PECL3/gPL2Lexer.g4 by ANTLR 4.8
+// Generated from /Users/luis/Desktop/Universidad/ProcesadoresDeLenguaje/SegundaMatricula/PL3/Procesadores-del-Lenguaje/PECL3/gPL2Lexer.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;

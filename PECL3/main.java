@@ -1,5 +1,4 @@
 package PECL3;
-
 //fichero ejecutable
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
@@ -19,7 +18,7 @@ class Main{
         }
 
         CharStream input = CharStreams.fromStream(is);
-        gPL2Lexer lexer = new gPL2Lexer (input);
+        gPL2Lexer lexer = new gPL2Lexer(input);
         CommonTokenStream tokens = new CommonTokenStream (lexer);
         gPL2Parser parser = new gPL2Parser (tokens);
         parser.setBuildParseTree(true);
