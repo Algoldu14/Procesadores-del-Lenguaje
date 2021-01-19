@@ -4,27 +4,26 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.*;
 
-import javax.annotation.processing.SupportedAnnotationTypes;
 
-public class Listener extends gPL2ParserBaseListener {
+public class Listener extends gPL3ParserBaseListener {
 
     private Stack<String> s = new Stack<String>();
     private String arbol = "";
 
     private String llamadafuncion = "";
-    private TablaDeSimbolos miTabla = new TablaDeSimbolos();
-    private Funcion funcionActual;
+    private TablaDeSimbolos tablaSimbolos = new TablaDeSimbolos();
+    private Funcion currentFunction;
     private String parametrosFuncion = "";
     private String retornoFuncion = "";
-    private ArrayList<Bucle> controlBucles = new ArrayList<Bucle>();
-    private ArrayList<Bifurcacion> controlBifurcaciones = new ArrayList<Bifurcacion>();
-    private Bucle bucleActual;
-    private Bifurcacion bifurcacionActual;
-    private String nombreFuncion = "";
+    private ArrayList<Bucle> loopControl = new ArrayList<Bucle>();
+    private ArrayList<Bifurcacion> bifurcationControl = new ArrayList<Bifurcacion>();
+    private Bucle currentLoop;
+    private Bifurcacion currentBifurcation;
+    private String functionName = "";
 
     @Override
     public void enterEveryRule(ParserRuleContext ctx) {
-        s.push(gPL2Parser.ruleNames[ctx.getRuleIndex()]);
+        s.push(gPL3Parser.ruleNames[ctx.getRuleIndex()]);
         for (int i = 0; i < s.size(); i++) {
             this.arbol = arbol + "->" + s.get(i);
         }
@@ -32,224 +31,221 @@ public class Listener extends gPL2ParserBaseListener {
     }
 
     @Override
-    public void enterSi(gPL2Parser.SiContext ctx) {
-        this.bifurcacionActual = new Bifurcacion();
-        this.controlBifurcaciones.add(this.bifurcacionActual);
+    public void enterSi(gPL3Parser.SiContext ctx) {
+        this.currentBifurcation = new Bifurcacion();
+        this.bifurcationControl.add(this.currentBifurcation);
     }
 
     @Override
-    public void enterFuncion(gPL2Parser.FuncionContext ctx) {
-        this.funcionActual = new Funcion();
-        this.funcionActual.appendReturn("");
+    public void enterFuncion(gPL3Parser.FuncionContext ctx) {
+        this.currentFunction = new Funcion();
+        this.currentFunction.appendReturn("");
     }
 
     @Override
-    public void exitFuncion(gPL2Parser.FuncionContext ctx) {
-        this.miTabla.addFuncion(funcionActual.getNombre(), funcionActual);
-        controlBucles.clear();
-        controlBifurcaciones.clear();
+    public void exitFuncion(gPL3Parser.FuncionContext ctx) {
+        this.tablaSimbolos.addFuncion(currentFunction.getNombre(), currentFunction);
+        loopControl.clear();
+        bifurcationControl.clear();
     }
 
     @Override
-    public void enterAlgoritmo(gPL2Parser.AlgoritmoContext ctx) {
-        System.out.println("hey, algoritmo!");
-        this.funcionActual = new Funcion();
-        this.funcionActual.appendParametro("");
-        this.funcionActual.appendReturn("");
-        this.nombreFuncion = "Necesito un nombre de la funcion";
+    public void enterAlgoritmo(gPL3Parser.AlgoritmoContext ctx) {
+        this.currentFunction = new Funcion();
+        this.currentFunction.appendParametro("");
+        this.currentFunction.appendReturn("");
+        this.functionName = "Necesito un nombre de la funcion";
     }
 
     @Override
-    public void exitAlgoritmo(gPL2Parser.AlgoritmoContext ctx) {
-        this.miTabla.addFuncion(funcionActual.getNombre(), funcionActual);
-        controlBucles.clear();
-        controlBifurcaciones.clear();
-        System.out.println("adios, algoritmo!");
+    public void exitAlgoritmo(gPL3Parser.AlgoritmoContext ctx) {
+        this.tablaSimbolos.addFuncion(currentFunction.getNombre(), currentFunction);
+        loopControl.clear();
+        bifurcationControl.clear();
     }
 
     @Override
-    public void enterOperacion(gPL2Parser.OperacionContext ctx) {
-        this.funcionActual.addLineaCodigoEfectiva(1);
+    public void enterOperacion(gPL3Parser.OperacionContext ctx) {
+        this.currentFunction.addLineaCodigoEfectiva(1);
     }
 
     @Override
-    public void enterCabezafuncion(gPL2Parser.CabezafuncionContext ctx) {
-        this.nombreFuncion = "Necesito un nombre de la funcion";
+    public void enterCabezafuncion(gPL3Parser.CabezafuncionContext ctx) {
+        this.functionName = "Necesito un nombre de la funcion";
     }
 
     @Override
-    public void enterMientras(gPL2Parser.MientrasContext ctx) {
-        this.bucleActual = new Bucle();
-        this.controlBucles.add(this.bucleActual);
+    public void enterMientras(gPL3Parser.MientrasContext ctx) {
+        this.currentLoop = new Bucle();
+        this.loopControl.add(this.currentLoop);
     }
 
     @Override
-    public void enterPara(gPL2Parser.ParaContext ctx) {
-        this.bucleActual = new Bucle();
-        this.controlBucles.add(this.bucleActual);
+    public void enterPara(gPL3Parser.ParaContext ctx) {
+        this.currentLoop = new Bucle();
+        this.loopControl.add(this.currentLoop);
     }
 
     @Override
-    public void enterRepetir(gPL2Parser.RepetirContext ctx) {
-        this.bucleActual = new Bucle();
-        this.controlBucles.add(this.bucleActual);
+    public void enterRepetir(gPL3Parser.RepetirContext ctx) {
+        this.currentLoop = new Bucle();
+        this.loopControl.add(this.currentLoop);
     }
 
     @Override
-    public void exitMientras(gPL2Parser.MientrasContext ctx) {
-        if (this.controlBucles.size() > 1) {
-            this.controlBucles.get(this.controlBucles.size() - 2)
-                    .addBucle(this.controlBucles.get(this.controlBucles.size() - 1));
-            this.controlBucles.remove(this.controlBucles.size() - 1);
-            this.bucleActual = this.controlBucles.get(this.controlBucles.size() - 1);
+    public void exitMientras(gPL3Parser.MientrasContext ctx) {
+        if (this.loopControl.size() > 1) {
+            this.loopControl.get(this.loopControl.size() - 2)
+                    .addBucle(this.loopControl.get(this.loopControl.size() - 1));
+            this.loopControl.remove(this.loopControl.size() - 1);
+            this.currentLoop = this.loopControl.get(this.loopControl.size() - 1);
         } else {
-            this.funcionActual.addBucle(this.controlBucles.get(this.controlBucles.size() - 1));
-            this.controlBucles.remove(this.controlBucles.size() - 1);
-            this.bucleActual = null;
+            this.currentFunction.addBucle(this.loopControl.get(this.loopControl.size() - 1));
+            this.loopControl.remove(this.loopControl.size() - 1);
+            this.currentLoop = null;
         }
     }
 
     @Override
-    public void exitPara(gPL2Parser.ParaContext ctx) {
-        if (this.controlBucles.size() > 1) {
-            this.controlBucles.get(this.controlBucles.size() - 2)
-                    .addBucle(this.controlBucles.get(this.controlBucles.size() - 1));
-            this.controlBucles.remove(this.controlBucles.size() - 1);
-            this.bucleActual = this.controlBucles.get(this.controlBucles.size() - 1);
+    public void exitPara(gPL3Parser.ParaContext ctx) {
+        if (this.loopControl.size() > 1) {
+            this.loopControl.get(this.loopControl.size() - 2)
+                    .addBucle(this.loopControl.get(this.loopControl.size() - 1));
+            this.loopControl.remove(this.loopControl.size() - 1);
+            this.currentLoop = this.loopControl.get(this.loopControl.size() - 1);
         } else {
-            this.funcionActual.addBucle(this.controlBucles.get(this.controlBucles.size() - 1));
-            this.controlBucles.remove(this.controlBucles.size() - 1);
-            this.bucleActual = null;
+            this.currentFunction.addBucle(this.loopControl.get(this.loopControl.size() - 1));
+            this.loopControl.remove(this.loopControl.size() - 1);
+            this.currentLoop = null;
         }
     }
 
     @Override
-    public void exitRepetir(gPL2Parser.RepetirContext ctx) {
-        if (this.controlBucles.size() > 1) {
-            this.controlBucles.get(this.controlBucles.size() - 2)
-                    .addBucle(this.controlBucles.get(this.controlBucles.size() - 1));
-            this.controlBucles.remove(this.controlBucles.size() - 1);
-            this.bucleActual = this.controlBucles.get(this.controlBucles.size() - 1);
+    public void exitRepetir(gPL3Parser.RepetirContext ctx) {
+        if (this.loopControl.size() > 1) {
+            this.loopControl.get(this.loopControl.size() - 2)
+                    .addBucle(this.loopControl.get(this.loopControl.size() - 1));
+            this.loopControl.remove(this.loopControl.size() - 1);
+            this.currentLoop = this.loopControl.get(this.loopControl.size() - 1);
         } else {
-            this.funcionActual.addBucle(this.controlBucles.get(this.controlBucles.size() - 1));
-            this.controlBucles.remove(this.controlBucles.size() - 1);
-            this.bucleActual = null;
+            this.currentFunction.addBucle(this.loopControl.get(this.loopControl.size() - 1));
+            this.loopControl.remove(this.loopControl.size() - 1);
+            this.currentLoop = null;
         }
     }
 
     @Override
-    public void exitSi(gPL2Parser.SiContext ctx) {
+    public void exitSi(gPL3Parser.SiContext ctx) {
 
-        if (this.controlBifurcaciones.size() > 1) {// Si está dentro de otro if
-            this.controlBifurcaciones.get(this.controlBifurcaciones.size() - 2)
-                    .addBifurcacion(this.controlBifurcaciones.get(this.controlBifurcaciones.size() - 1));
-            this.controlBifurcaciones.get(this.controlBifurcaciones.size() - 2).actualizarContadorNodos();
-            this.controlBifurcaciones.remove(this.controlBifurcaciones.size() - 1);
-            this.bifurcacionActual = this.controlBifurcaciones.get(this.controlBifurcaciones.size() - 1);
-        } else if (this.controlBucles.size() > 0) {// si está dentro de un bucle
-            this.controlBucles.get(this.controlBucles.size() - 1)
-                    .addBifurcacion(this.controlBifurcaciones.get(this.controlBifurcaciones.size() - 1));
-            this.controlBifurcaciones.remove(this.controlBifurcaciones.size() - 1);
-            this.bifurcacionActual = null;
+        if (this.bifurcationControl.size() > 1) {// Si está dentro de otro if
+            this.bifurcationControl.get(this.bifurcationControl.size() - 2)
+                    .addBifurcacion(this.bifurcationControl.get(this.bifurcationControl.size() - 1));
+            this.bifurcationControl.get(this.bifurcationControl.size() - 2).actualizarContadorNodos();
+            this.bifurcationControl.remove(this.bifurcationControl.size() - 1);
+            this.currentBifurcation = this.bifurcationControl.get(this.bifurcationControl.size() - 1);
+        } else if (this.loopControl.size() > 0) {// si está dentro de un bucle
+            this.loopControl.get(this.loopControl.size() - 1)
+                    .addBifurcacion(this.bifurcationControl.get(this.bifurcationControl.size() - 1));
+            this.bifurcationControl.remove(this.bifurcationControl.size() - 1);
+            this.currentBifurcation = null;
         } else {// si está a pelo
-            this.funcionActual.addBifurcacion(this.controlBifurcaciones.get(this.controlBifurcaciones.size() - 1));
-            this.controlBifurcaciones.remove(this.controlBifurcaciones.size() - 1);
-            this.bifurcacionActual = null;
+            this.currentFunction.addBifurcacion(this.bifurcationControl.get(this.bifurcationControl.size() - 1));
+            this.bifurcationControl.remove(this.bifurcationControl.size() - 1);
+            this.currentBifurcation = null;
         }
     }
 
     @Override
-    public void enterIdentificador(gPL2Parser.IdentificadorContext ctx) {
-        if (this.nombreFuncion.equals("Necesito un nombre de la funcion")) {
-            System.out.println("Le asigno un nombre!");
-            this.funcionActual.setNombre(ctx.ID().getText());
-            this.nombreFuncion = "";
+    public void enterIdentificador(gPL3Parser.IdentificadorContext ctx) {
+        if (this.functionName.equals("Necesito un nombre de la funcion")) {
+            this.currentFunction.setNombre(ctx.ID().getText());
+            this.functionName = "";
         } else if (this.parametrosFuncion.equals("Necesito un parámetro de funcion")) {
-            this.funcionActual.appendParametro(ctx.ID().getText());
+            this.currentFunction.appendParametro(ctx.ID().getText());
         } else if (this.llamadafuncion.equals("Necesito un nombre de llamada")) {
-            if (this.controlBifurcaciones.size() > 1) {
-                this.controlBifurcaciones.get(this.controlBifurcaciones.size() - 1)
+            if (this.bifurcationControl.size() > 1) {
+                this.bifurcationControl.get(this.bifurcationControl.size() - 1)
                         .addNombreLlamada(ctx.ID().getText());
-            } else if (this.controlBucles.size() > 0) {
-                this.controlBucles.get(this.controlBucles.size() - 1).addNombreLlamada(ctx.ID().getText());
+            } else if (this.loopControl.size() > 0) {
+                this.loopControl.get(this.loopControl.size() - 1).addNombreLlamada(ctx.ID().getText());
             } else {
-                this.funcionActual.addNombreLlamada(ctx.ID().getText());
+                this.currentFunction.addNombreLlamada(ctx.ID().getText());
             }
             this.llamadafuncion = "";
         }
     }
 
     @Override
-    public void exitIdentificador(gPL2Parser.IdentificadorContext ctx) {
-        this.nombreFuncion = "";
+    public void exitIdentificador(gPL3Parser.IdentificadorContext ctx) {
+        this.functionName = "";
     }
 
     @Override
-    public void enterArgumentos(gPL2Parser.ArgumentosContext ctx) {
-        this.funcionActual.addValorParametro(2 * ctx.identificador().size());
+    public void enterArgumentos(gPL3Parser.ArgumentosContext ctx) {
+        this.currentFunction.addValorParametro(2 * ctx.identificador().size());
         this.parametrosFuncion = "Necesito un parámetro de funcion";
     }
 
     @Override
-    public void exitArgumentos(gPL2Parser.ArgumentosContext ctx) {
+    public void exitArgumentos(gPL3Parser.ArgumentosContext ctx) {
         this.parametrosFuncion = "";
     }
 
     @Override
-    public void enterPfinfuncion(gPL2Parser.PfinfuncionContext ctx) {
+    public void enterPfinfuncion(gPL3Parser.PfinfuncionContext ctx) {
         this.retornoFuncion = "Necesito un retorno de funcion";
     }
 
     @Override
-    public void enterDefinicion(gPL2Parser.DefinicionContext ctx) {
-        if (this.controlBucles.size() > 0) {
-            if (this.controlBifurcaciones.size() > 0) {
-                this.controlBifurcaciones.get(this.controlBifurcaciones.size() - 1)
+    public void enterDefinicion(gPL3Parser.DefinicionContext ctx) {
+        if (this.loopControl.size() > 0) {
+            if (this.bifurcationControl.size() > 0) {
+                this.bifurcationControl.get(this.bifurcationControl.size() - 1)
                         .addValorDeclaracionVariable(1 * ctx.identificador().size());
             } else {
-                this.controlBucles.get(this.controlBucles.size() - 1)
+                this.loopControl.get(this.loopControl.size() - 1)
                         .addValorDeclaracionVariable(1 * ctx.identificador().size());
             }
         } else {
-            if (this.controlBifurcaciones.size() > 0) {
-                this.controlBifurcaciones.get(controlBifurcaciones.size() - 1)
+            if (this.bifurcationControl.size() > 0) {
+                this.bifurcationControl.get(bifurcationControl.size() - 1)
                         .addValorDeclaracionVariable(1 * ctx.identificador().size());
             } else {
                 int aux =ctx.identificador().size();
-                this.funcionActual.addValorDeclaracionVariable(1 * aux);
+                this.currentFunction.addValorDeclaracionVariable(1 * aux);
             }
         }
-        this.funcionActual.addLineaCodigoEfectiva(ctx.identificador().size());
+        this.currentFunction.addLineaCodigoEfectiva(ctx.identificador().size());
     }
 
     @Override
-    public void enterLlamadaFuncion(gPL2Parser.LlamadaFuncionContext ctx) {
+    public void enterLlamadaFuncion(gPL3Parser.LlamadaFuncionContext ctx) {
         this.llamadafuncion = "Necesito un nombre de llamada";
-        if (this.controlBifurcaciones.size() > 0) {
-            this.controlBifurcaciones.get(this.controlBifurcaciones.size() - 1).addValorLlamadaFuncion(2);
-        } else if (this.controlBucles.size() > 0) {
-            this.controlBucles.get(this.controlBucles.size() - 1).addValorLlamadaFuncion(2);
+        if (this.bifurcationControl.size() > 0) {
+            this.bifurcationControl.get(this.bifurcationControl.size() - 1).addValorLlamadaFuncion(2);
+        } else if (this.loopControl.size() > 0) {
+            this.loopControl.get(this.loopControl.size() - 1).addValorLlamadaFuncion(2);
         } else {
-            this.funcionActual.addValorLlamadaFuncion(2);
+            this.currentFunction.addValorLlamadaFuncion(2);
         }
-        this.funcionActual.addLineaCodigoEfectiva(1);
+        this.currentFunction.addLineaCodigoEfectiva(1);
         if(ctx.argumentos()==null){
-            this.funcionActual.addValorParametrosLlamadaFuncion(0);
+            this.currentFunction.addValorParametrosLlamadaFuncion(0);
         }else{
-            this.funcionActual.addValorParametrosLlamadaFuncion(ctx.argumentos().identificador().size());
+            this.currentFunction.addValorParametrosLlamadaFuncion(ctx.argumentos().identificador().size());
         }
     }
 
     @Override
     public void visitTerminal(TerminalNode node) {
         if (this.retornoFuncion.equals("Necesito un retorno de funcion")) {
-            this.funcionActual.appendReturn(node.getText());
+            this.currentFunction.appendReturn(node.getText());
             this.retornoFuncion = "";
         }
     }
 
     public TablaDeSimbolos getTablaDeSimbolos() {
-        return this.miTabla;
+        return this.tablaSimbolos;
     }
 
     public String getArbol() {

@@ -18,9 +18,9 @@ class Main{
         }
 
         CharStream input = CharStreams.fromStream(is);
-        gPL2Lexer lexer = new gPL2Lexer(input);
+        gPL3Lexer lexer = new gPL3Lexer(input);
         CommonTokenStream tokens = new CommonTokenStream (lexer);
-        gPL2Parser parser = new gPL2Parser (tokens);
+        gPL3Parser parser = new gPL3Parser (tokens);
         parser.setBuildParseTree(true);
         ParseTree tree = parser.prog();
 
@@ -34,7 +34,6 @@ class Main{
 
         for(String i : miTabla.getFunciones().keySet()){
             miTabla.getFunciones().get(i).generarGrafoFuncion(i);
-            System.out.println(miTabla.getFunciones().get(i));
         }
 
         GeneradorGrafoLlamadas llamadas = new GeneradorGrafoLlamadas(miTabla.getFunciones());
@@ -42,11 +41,11 @@ class Main{
         llamadas.generarGrafo();
 
         GrafoCiclomaticaTotal ciclomaticaTotal = new GrafoCiclomaticaTotal(miTabla.getFunciones(), funcionPrincipal);
-        HTMLConverter miHTML = new HTMLConverter(miTabla.getFunciones(),ficheroHTML);
+        ConvertidorHTML miHTML = new ConvertidorHTML(miTabla.getFunciones(),ficheroHTML);
 
         for(String i : miTabla.getFunciones().keySet()){        
             miHTML.escribirHTML(i);
         }
-        miHTML.endHTML();
+        miHTML.acabarHTML();
     }
 }
