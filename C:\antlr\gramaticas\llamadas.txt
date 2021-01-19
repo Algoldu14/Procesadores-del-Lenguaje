@@ -1,5 +1,8 @@
 digraph G {
-nodoFibonacci[label="Fibonacci"];
-nodoLlamaFibonacci[label="LlamaFibonacci"];
-nodoLlamaFibonacci->nodoFibonacci;
+nodotest3[label="test3"];
+nodoLlamada[label="Llamada"];
+nodo<missing ID>[label="<missing ID>"];
+nododato[label="dato"];
+nodotest3->nodoLlamada;
+nodotest3->nodo<missing ID>;
 }

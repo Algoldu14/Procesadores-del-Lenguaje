@@ -40,6 +40,7 @@ public class Listener extends gPL2ParserBaseListener {
     @Override
     public void enterFuncion(gPL2Parser.FuncionContext ctx) {
         this.funcionActual = new Funcion();
+        this.funcionActual.appendReturn("");
     }
 
     @Override
@@ -51,7 +52,11 @@ public class Listener extends gPL2ParserBaseListener {
 
     @Override
     public void enterAlgoritmo(gPL2Parser.AlgoritmoContext ctx) {
+        System.out.println("hey, algoritmo!");
         this.funcionActual = new Funcion();
+        this.funcionActual.appendParametro("");
+        this.funcionActual.appendReturn("");
+        this.nombreFuncion = "Necesito un nombre de la funcion";
     }
 
     @Override
@@ -59,6 +64,7 @@ public class Listener extends gPL2ParserBaseListener {
         this.miTabla.addFuncion(funcionActual.getNombre(), funcionActual);
         controlBucles.clear();
         controlBifurcaciones.clear();
+        System.out.println("adios, algoritmo!");
     }
 
     @Override
@@ -155,6 +161,7 @@ public class Listener extends gPL2ParserBaseListener {
     @Override
     public void enterIdentificador(gPL2Parser.IdentificadorContext ctx) {
         if (this.nombreFuncion.equals("Necesito un nombre de la funcion")) {
+            System.out.println("Le asigno un nombre!");
             this.funcionActual.setNombre(ctx.ID().getText());
             this.nombreFuncion = "";
         } else if (this.parametrosFuncion.equals("Necesito un parámetro de funcion")) {

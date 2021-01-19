@@ -1,3 +1,6 @@
+Funcion X (a)
+Fin Funcion
+
 Algoritmo SubirEscaleraMientras2
 	
 	
@@ -11,7 +14,7 @@ Algoritmo SubirEscaleraMientras2
 		Escribir "subo", "no bajo", HeLlegado, contadorDePasos
 		
 		contadorDePasos<-contadorDePasos+1
-		// Verificar la condición
+		// Verificar la condiciï¿½n
 		Si contadorDePasos>5 Entonces
 			HeLlegado=Verdadero
 		Fin Si
